@@ -1,0 +1,70 @@
+cabal-version:      3.0
+name:               weight-recorder
+version:            0.1.0.0
+-- synopsis:
+-- description:
+homepage:           https://github.com/goushino/weight-recorder
+license:            BSD-3-Clause
+license-file:       LICENSE
+author:             goushino
+maintainer:         shinozaki54@gmail.com
+-- copyright:
+category:           Web
+build-type:         Simple
+extra-doc-files:    CHANGELOG.md
+-- extra-source-files:
+data-files:         templates/start.mustache
+                  , templates/main.mustache
+                  , data/schema.sql
+
+common warnings
+    ghc-options: -Wall
+
+library
+    import:           warnings
+    exposed-modules:  MyLib
+    -- other-modules:
+    -- other-extensions:
+    build-depends:    base ^>=4.14.3.0
+                     ,bcrypt
+                     ,bytestring
+                     ,filepath
+                     ,HDBC
+                     ,HDBC-sqlite3
+                     ,http-types
+                     ,Spock
+                     ,mustache
+                     ,persistable-record
+                     ,relational-query-HDBC
+                     ,relational-query
+                     ,resource-pool
+                     ,text
+                     ,time
+                     ,transformers
+                     ,wai
+    hs-source-dirs:   src
+    default-language: Haskell2010
+
+executable weight-recorder
+    import:           warnings
+    main-is:          Main.hs
+    -- other-modules:
+    -- other-extensions:
+    build-depends:
+        base ^>=4.14.3.0,
+        weight-recorder
+
+    hs-source-dirs:   app
+    default-language: Haskell2010
+
+test-suite weight-recorder-test
+    import:           warnings
+    default-language: Haskell2010
+    -- other-modules:
+    -- other-extensions:
+    type:             exitcode-stdio-1.0
+    hs-source-dirs:   test
+    main-is:          Main.hs
+    build-depends:
+        base ^>=4.14.3.0,
+        weight-recorder
