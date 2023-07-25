@@ -10,5 +10,5 @@ CREATE TABLE weight_record
    user_id INTEGER NOT NULL,
    time DATETIME NOT NULL,
    weight FLOAT(5,2) NOT NULL
-);
+  );
 
