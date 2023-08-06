@@ -1,0 +1,28 @@
+{-# LANGUAGE OverloadedStrings #-}
+
+module Web.Action.Login (loginAction) where
+
+import Control.Monad (when)
+import Model.User (selectUser)
+import Web.Core (WRAction, runSqlite, wrsesUser)
+import Web.Spock (modifySession, param', redirect)
+import Web.View.Start (startView)
+import Entity.User (User(password))
+import Control.Monad.Trans.RWS (modify)
+
+loginAction :: WRAction a
+loginAction = do
+  name <- param' "name"
+  password <- param' "password"
+  when (null name || null password) $ startView (Just "入力されていない項目があります")
+  mUser <- runSqlite $ selectUser name password
+  case mUser of
+    Nothing -> starView (Just "ログインに失敗しました")
+    Just user -> do
+      modifySession $
+        \ses ->
+          ses
+          { wrsesUser = Just user
+          }
+      redirect "/"
+
