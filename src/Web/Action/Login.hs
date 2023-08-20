@@ -17,7 +17,7 @@ loginAction = do
   when (null name || null password) $ startView (Just "入力されていない項目があります")
   mUser <- runSqlite $ selectUser name password
   case mUser of
-    Nothing -> starView (Just "ログインに失敗しました")
+    Nothing -> startView (Just "ログインに失敗しました")
     Just user -> do
       modifySession $
         \ses ->

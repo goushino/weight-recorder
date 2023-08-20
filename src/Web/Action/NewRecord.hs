@@ -21,7 +21,10 @@ newRecordAction = do
   case mWeight of
     Nothing -> mainView (Just "体重が誤っています")
     Just weight -> do
-      Just user <- wrconUser <$> getContext
+      mUser <- wrconUser <$> getContext
+      user <- case mUser of
+                Just user' -> return user'
+                Nothing -> error "Pattern match failed"
       now <- liftIO utcTime
       let record = NewWRecord (User.id user) now weight
       n <- runSqlite $ insertNewWRecord record
